@@ -1,0 +1,99 @@
+---
+# Red Hat AMQ Streams 2.5.0 Version
+amq_streams_common_product_version: 3.5.0.redhat-00014
+amq_streams_common_rhn_product_version: 2.5.1
+amq_streams_common_rhn_home_dir: kafka_2.13-3.5.0.redhat-00014
+#amq_streams_broker_log_message_format_version: 3.5
+#amq_streams_broker_inter_broker_protocol_version: 3.5
+
+# Upgrade Red Hat AMQ Streams 2.6.0 Version
+#amq_streams_common_product_version: 3.6.0.redhat-00005
+#amq_streams_common_rhn_product_version: 2.6.0
+#amq_streams_common_rhn_home_dir: kafka_2.13-3.6.0.redhat-00005
+#amq_streams_common_product_upgrade: true
+#amq_streams_broker_log_message_format_version: 3.6
+#amq_streams_broker_inter_broker_protocol_version: 3.6
+
+# Performing OS
+amq_streams_common_systctl_update_enable: true
+amq_streams_broker_sysctl_vm_max_map_count: 165530
+amq_streams_broker_ulimit_max_value: 10240
+
+# Enabling Zookeeper Authentication
+amq_streams_zookeeper_auth_enabled: true
+amq_streams_zookeeper_auth_user: zkadmin
+amq_streams_zookeeper_auth_pass: p@ssw0rd
+
+# Zookeeper Java properties
+#amq_streams_zookeeper_java_heap_opts: '' # '-Xmx512M -Xms512M'
+#amq_streams_zookeeper_java_opts: '' #'-server -XX:+UseG1GC -XX:MaxGCPauseMillis=20 -XX:InitiatingHeapOccupancyPercent=35 -XX:+ExplicitGCInvokesConcurrent -XX:MaxInlineLevel=15 -Djava.awt.headless=true'
+#amq_streams_zookeeper_java_performance_opts: '' #'-server -XX:MetaspaceSize=96m -XX:+UseG1GC -XX:MaxGCPauseMillis=20 -XX:InitiatingHeapOccupancyPercent=35 -XX:G1HeapRegionSize=16M -XX:MinMetaspaceFreeRatio=50 -XX:MaxMetaspaceFreeRatio=80 -XX:+ExplicitGCInvokesConcurrent -Djava.awt.headless=true'
+#amq_streams_zookeeper_java_java_gc_log_opts: '' #'-verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=100M'
+#amq_streams_zookeeper_java_jmx_opts: '' #'-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false  -Dcom.sun.management.jmxremote.ssl=false'
+
+# Enabling Kafka Broker Listeners
+amq_streams_broker_listeners:
+  #- PLAINTEXT://:{{ amq_streams_broker_listener_port }} # Insecure
+  - AUTHENTICATED://:{{ amq_streams_broker_listener_port }} # Authenticated
+  - REPLICATION://:{{ amq_streams_broker_listener_internal_port }} # Inter broker communication
+
+# Listener for inter-broker communications
+amq_streams_broker_inter_broker_listener: REPLICATION
+
+# Enabling Kafka Broker Authentication
+amq_streams_broker_auth_enabled: true
+amq_streams_broker_auth_scram_enabled: true
+amq_streams_broker_auth_listeners:
+  #- PLAINTEXT:PLAINTEXT
+  - AUTHENTICATED:SASL_PLAINTEXT
+  #- REPLICATION:PLAINTEXT
+  - REPLICATION:SASL_PLAINTEXT
+
+amq_streams_broker_auth_sasl_mechanisms:
+  - PLAIN
+  - SCRAM-SHA-512
+
+# Kafka Plain Users
+amq_streams_broker_auth_plain_users:
+  - username: admin
+    password: p@ssw0rd
+  - username: kafkauser
+    password: p@ssw0rd
+
+# Setting Kafka user for inter-broker communication
+amq_streams_broker_inter_broker_auth_sasl_mechanisms: PLAIN
+amq_streams_broker_inter_broker_auth_broker_username: interbroker
+amq_streams_broker_inter_broker_auth_broker_password: p@ssw0rd
+#amq_streams_broker_inter_broker_auth_sasl_mechanisms: SCRAM-SHA-512
+#amq_streams_broker_inter_broker_listener_auth: |
+#  listener.name.replication.scram-sha-512.sasl.jaas.config=org.apache.kafka.common.security.scram.ScramLoginModule required username="interbroker" password="password";
+
+# Enabling Broker replication
+amq_streams_broker_offsets_topic_replication_factor: 3
+amq_streams_broker_transaction_state_log_replication_factor: 3
+amq_streams_broker_transaction_state_log_min_isr: 2
+
+# Broker Java Properties
+#amq_streams_broker_java_heap_opts: '' #'-Xmx1024M -Xms1024M'
+#amq_streams_broker_java_opts: '' #'-server -XX:+UseG1GC -XX:MaxGCPauseMillis=20 -XX:InitiatingHeapOccupancyPercent=35 -XX:+ExplicitGCInvokesConcurrent -XX:MaxInlineLevel=15 -Djava.awt.headless=true'
+#amq_streams_broker_java_performance_opts: '' #'-server -XX:MetaspaceSize=96m -XX:+UseG1GC -XX:MaxGCPauseMillis=20 -XX:InitiatingHeapOccupancyPercent=35 -XX:G1HeapRegionSize=16M -XX:MinMetaspaceFreeRatio=50 -XX:MaxMetaspaceFreeRatio=80 -XX:+ExplicitGCInvokesConcurrent -Djava.awt.headless=true'
+#amq_streams_broker_java_java_gc_log_opts: '' #'-verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=100M'
+#amq_streams_broker_java_jmx_opts: '' #'-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false  -Dcom.sun.management.jmxremote.ssl=false'
+
+# Kafka Broker Authentication
+amq_streams_broker_admin_mechanism: PLAIN
+#amq_streams_broker_admin_mechanism: SCRAM-SHA-512
+amq_streams_broker_admin_username: admin
+amq_streams_broker_admin_password: p@ssw0rd
+
+# Connection to SSL endpoint
+amq_streams_connect_bootstrap_servers: f38mw01:9092,f38mw02:9092,f38mw03:9092
+
+# Topic management
+amq_streams_broker_topics:
+  - name: sample-topic
+    partitions: 2
+    replication_factor: 1
+  - name: other-topic
+    partitions: 4
+    replication_factor: 1

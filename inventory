@@ -1,0 +1,38 @@
+all:
+  hosts:
+    f38mw01:
+    f38mw02:
+    f38mw03:
+
+zookeepers:
+  hosts:
+    f38mw01:
+      amq_streams_zookeeper_zookeeper_id: 10
+    f38mw02:
+      amq_streams_zookeeper_zookeeper_id: 20
+    f38mw03:
+      amq_streams_zookeeper_zookeeper_id: 30
+
+brokers:
+  hosts:
+    f38mw01:
+      amq_streams_broker_broker_id: 10
+      amq_streams_broker_advertised_listeners:
+        - AUTHENTICATED://f38mw01.rmarting.lan:9092
+        - REPLICATION://f38mw01:9091
+    f38mw02:
+      amq_streams_broker_broker_id: 20
+      amq_streams_broker_advertised_listeners:
+        - AUTHENTICATED://f38mw02.rmarting.lan:9092
+        - REPLICATION://f38mw02:9091
+    f38mw03:
+      amq_streams_broker_broker_id: 30
+      amq_streams_broker_advertised_listeners:
+        - AUTHENTICATED://f38mw03.rmarting.lan:9092
+        - REPLICATION://f38mw03:9091
+
+all_topics:
+  hosts:
+    #f38mw01:
+    #f38mw02:
+    f38mw03:

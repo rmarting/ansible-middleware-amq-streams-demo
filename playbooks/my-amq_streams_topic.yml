@@ -1,0 +1,28 @@
+---
+- name: "Ansible Playbook to operate with Kafka Topics"
+  hosts: all_topics
+  remote_user: rhmw
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: "Create topics"
+      ansible.builtin.include_role:
+        name: redhat.amq_streams.amq_streams_broker
+        tasks_from: topic/create.yml
+      loop: "{{ amq_streams_broker_topics }}"
+      loop_control:
+        loop_var: topic
+      vars:
+        topic_name: "{{ topic.name }}"
+        topic_partitions: "{{ topic.partitions }}"
+        topic_replication_factor: "{{ topic.replication_factor }}"
+
+    - name: "Describe topics"
+      ansible.builtin.include_role:
+        name: redhat.amq_streams.amq_streams_broker
+        tasks_from: topic/describe.yml
+      loop: "{{ amq_streams_broker_topics }}"
+      loop_control:
+        loop_var: topic
+      vars:
+        topic_name: "{{ topic.name }}"

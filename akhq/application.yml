@@ -1,0 +1,54 @@
+micronaut:
+  server:
+    port: 8888
+
+akhq:
+  server:
+    base-path: ""
+    access-log: # Access log configuration (optional)
+      enabled: true # true by default
+      name: org.akhq.log.access # Logger name
+      format: "[Date: {}] [Duration: {} ms] [Url: {} {} {}] [Status: {}] [Ip: {}] [Length: {}] [Port: {}]" # Logger format
+
+  # default kafka properties for each clients, available for admin / producer / consumer (optional)
+  clients-defaults:
+    consumer:
+      properties:
+        isolation.level: read_committed
+
+  # list of kafka cluster available for akhq
+  connections:
+    ansible-mw-cluster:
+      properties:
+        bootstrap.servers: "f38mw01.rmarting.lan:9092,f38mw02.rmarting.lan:9092,f38mw03.rmarting.lan:9092"
+        security.protocol: SASL_PLAINTEXT
+        sasl.mechanism: PLAIN
+        sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="admin" password="p@ssw0rd";
+
+  pagination:
+    page-size: 50 # number of elements per page (default : 25)
+    threads: 16 # Number of parallel threads to resolve page
+
+  # Topic list display options (optional)
+  topic:
+    retention: 172800000 # default retention period when creating topic
+    partition: 3 #  default number of partition when creating topic
+    replication: 3 # default number of replicas when creating topic
+    default-view: HIDE_INTERNAL # default list view (ALL, HIDE_INTERNAL, HIDE_INTERNAL_STREAM, HIDE_STREAM)
+    internal-regexps: # list of regexp to be considered as internal (internal topic can't be deleted or updated)
+      - "^_.*$"
+      - "^.*_schemas$"
+      - "^.*connect-config$"
+      - "^.*connect-offsets$1"
+      - "^.*connect-status$"
+    stream-regexps: # list of regexp to be considered as internal stream topic
+      - "^.*-changelog$"
+      - "^.*-repartition$"
+      - "^.*-rekey$"
+    skip-consumer-groups: false # Skip loading consumer group information when showing topics
+
+  # Topic display data options (optional)
+  topic-data:
+    sort: NEWEST # default sort order (OLDEST, NEWEST) (default: OLDEST)
+    size: 50 # max record per page (default: 50)
+    poll-timeout: 1000 # The time, in milliseconds, spent waiting in poll if data is not available in the buffer.

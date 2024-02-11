@@ -1,7 +1,7 @@
 # Red Hat AMQ Streams Ansible Collection Demo
 
-This repo includes a demo of Red Hat AMQ Streams Ansible Collection to deploy a Kafka
-cluster on three hosts:
+This repo includes a demo of [AMQ Streams Ansible Collection](https://github.com/ansible-middleware/amq_streams)
+to deploy a Kafka cluster on three hosts:
 
 ![Red Hat AMQ Streams Topology deployed by Ansible](amq-streams-ansible.png)
 

@@ -40,6 +40,11 @@ auth_url = https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-co
 token = ADD_HERE_YOUR_TOKEN
 ```
 
+## Inventory
+
+The [`inventories/demo`](./inventories/demo) includes an example for three hosts to deploy this topology. Please, update it
+to use the full qualified name for your own hosts or create your own inventory file with the valid references.
+
 ## Install Red Hat AMQ Streams Ansible Collection
 
 Attached to this repo there is a tarball of the `redhat.amq_streams` collection that you can install:
@@ -53,7 +58,7 @@ ansible-galaxy collection install redhat.amq_streams
 Run the command:
 
 ```shell
-ansible-playbook -i inventory playbooks/my-amq_streams_distributed_auth.yml -e @service_account.yml
+ansible-playbook -i inventories/demo playbooks/my-amq_streams_distributed_auth.yml -e @service_account.yml
 ```
 
 # Create topics
@@ -61,7 +66,7 @@ ansible-playbook -i inventory playbooks/my-amq_streams_distributed_auth.yml -e @
 Run the command:
 
 ```shell
-ansible-playbook -i inventory playbooks/my-amq_streams_topic.yml -e @service_account.yml
+ansible-playbook -i inventories/demo playbooks/my-amq_streams_topic.yml -e @service_account.yml
 ```
 
 # Testing Red Hat AMQ Streams
@@ -80,13 +85,13 @@ EOF
 This Kafka command will list the current topics created in the kafka cluster:
 
 ```shell
-./bin/kafka-topics.sh --bootstrap-server localhost:9092 --command-config /tmp/kafka-cli.properties --list
+/opt/kafka_2.13-3.5.0.redhat-00014/bin/kafka-topics.sh --bootstrap-server localhost:9092 --command-config /tmp/kafka-cli.properties --list
 ```
 
 This Kafka command will consume messages from one of the topics created by the collection:
 
 ```shell
-./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic sample-topic \
+/opt/kafka_2.13-3.5.0.redhat-00014/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic sample-topic \
     --consumer.config /tmp/kafka-cli.properties \
     --from-beginning
 ```
@@ -94,7 +99,7 @@ This Kafka command will consume messages from one of the topics created by the c
 This Kafka command will produce messages into one of the topics created by the collection:
 
 ```shell
-./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic sample-topic \
+/opt/kafka_2.13-3.5.0.redhat-00014/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic sample-topic \
     --producer.config /tmp/kafka-cli.properties
 ```
 
@@ -115,4 +120,5 @@ The Kafka GUI is available at [http://localhost:8888/](http://localhost:8888/).
 ![Topics management by akhq](./akhq/akhq-topics.png)
 
 The [application.yml](./akhq/application.yml) file has all the configuration required to access to
-the Kafka cluster deployed.
+the Kafka cluster deployed. Please, review the `bootstrap.servers` property to use the hosts defined in your
+own inventory.

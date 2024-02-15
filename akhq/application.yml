@@ -20,7 +20,7 @@ akhq:
   connections:
     ansible-mw-cluster:
       properties:
-        bootstrap.servers: "f38mw01.rmarting.lan:9092,f38mw02.rmarting.lan:9092,f38mw03.rmarting.lan:9092"
+        bootstrap.servers: "HOST01:9092,HOST02:9092,HOST03:9092"
         security.protocol: SASL_PLAINTEXT
         sasl.mechanism: PLAIN
         sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="admin" password="p@ssw0rd";

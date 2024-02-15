@@ -1,0 +1,9 @@
+---
+# Topic management
+amq_streams_broker_topics:
+  - name: sample-topic
+    partitions: 2
+    replication_factor: 1
+  - name: other-topic
+    partitions: 4
+    replication_factor: 1

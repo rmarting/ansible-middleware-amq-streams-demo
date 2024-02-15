@@ -1,0 +1,5 @@
+---
+# Performing OS
+amq_streams_common_systctl_update_enable: true
+amq_streams_broker_sysctl_vm_max_map_count: 165530
+amq_streams_broker_ulimit_max_value: 10240

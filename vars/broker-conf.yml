@@ -1,0 +1,42 @@
+---
+# Enabling Kafka Broker Listeners
+amq_streams_broker_listeners:
+  #- PLAINTEXT://:{{ amq_streams_broker_listener_port }} # Insecure
+  - AUTHENTICATED://:{{ amq_streams_broker_listener_port }} # Authenticated
+  - REPLICATION://:{{ amq_streams_broker_listener_internal_port }} # Inter broker communication
+
+# Listener for inter-broker communications
+amq_streams_broker_inter_broker_listener: REPLICATION
+
+# Enabling Kafka Broker Authentication
+amq_streams_broker_auth_enabled: true
+amq_streams_broker_auth_scram_enabled: true
+amq_streams_broker_auth_listeners:
+  #- PLAINTEXT:PLAINTEXT
+  - AUTHENTICATED:SASL_PLAINTEXT
+  #- REPLICATION:PLAINTEXT
+  - REPLICATION:SASL_PLAINTEXT
+
+amq_streams_broker_auth_sasl_mechanisms:
+  - PLAIN
+  - SCRAM-SHA-512
+
+# Setting Kafka user for inter-broker communication
+amq_streams_broker_inter_broker_auth_sasl_mechanisms: PLAIN
+amq_streams_broker_inter_broker_auth_broker_username: interbroker
+amq_streams_broker_inter_broker_auth_broker_password: p@ssw0rd
+#amq_streams_broker_inter_broker_auth_sasl_mechanisms: SCRAM-SHA-512
+#amq_streams_broker_inter_broker_listener_auth: |
+#  listener.name.replication.scram-sha-512.sasl.jaas.config=org.apache.kafka.common.security.scram.ScramLoginModule required username="interbroker" password="password";
+
+# Enabling Broker replication
+amq_streams_broker_offsets_topic_replication_factor: 3
+amq_streams_broker_transaction_state_log_replication_factor: 3
+amq_streams_broker_transaction_state_log_min_isr: 2
+
+# Broker Java Properties
+#amq_streams_broker_java_heap_opts: '' #'-Xmx1024M -Xms1024M'
+#amq_streams_broker_java_opts: '' #'-server -XX:+UseG1GC -XX:MaxGCPauseMillis=20 -XX:InitiatingHeapOccupancyPercent=35 -XX:+ExplicitGCInvokesConcurrent -XX:MaxInlineLevel=15 -Djava.awt.headless=true'
+#amq_streams_broker_java_performance_opts: '' #'-server -XX:MetaspaceSize=96m -XX:+UseG1GC -XX:MaxGCPauseMillis=20 -XX:InitiatingHeapOccupancyPercent=35 -XX:G1HeapRegionSize=16M -XX:MinMetaspaceFreeRatio=50 -XX:MaxMetaspaceFreeRatio=80 -XX:+ExplicitGCInvokesConcurrent -Djava.awt.headless=true'
+#amq_streams_broker_java_java_gc_log_opts: '' #'-verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=100M'
+#amq_streams_broker_java_jmx_opts: '' #'-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false  -Dcom.sun.management.jmxremote.ssl=false'

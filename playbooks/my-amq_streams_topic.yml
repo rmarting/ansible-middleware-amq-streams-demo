@@ -3,7 +3,9 @@
   hosts: all_topics
   remote_user: rhmw
   vars_files:
-    - vars.yml
+    - ../vars/amq-streams-version.yml
+    - ../vars/broker-auth.yml
+    - ../vars/broker-topics.yml
   tasks:
     - name: "Create topics"
       ansible.builtin.include_role:

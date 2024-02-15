@@ -1,0 +1,7 @@
+---
+# Kafka Plain Users
+amq_streams_broker_auth_plain_users:
+  - username: admin
+    password: p@ssw0rd
+  - username: kafkauser
+    password: p@ssw0rd

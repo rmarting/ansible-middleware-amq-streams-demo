@@ -4,7 +4,11 @@
   remote_user: rhmw
   #serial: 1
   vars_files:
-    - vars.yml
+    - ../vars/amq-streams-version.yml
+    - ../vars/amq-streams-os.yml
+    - ../vars/zookeeper-conf.yml
+    - ../vars/broker-conf.yml
+    - ../vars/broker-users.yml
   collections:
     - redhat.amq_streams
   roles:
